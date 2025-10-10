@@ -1,0 +1,15 @@
+---
+services:
+  mastodon-archiver:
+    image: mastodon-archiver:latest
+    container_name: mastodon-archiver
+    dns:
+      - 8.8.8.8
+    env_file:
+      - .env
+    environment:
+      - USER=sulrich
+    volumes:
+      - ./archive:/archive
+    restart: unless-stopped
+    command: sh -c "while true; do uv run mastodon-archiver.py; sleep 300; done"
