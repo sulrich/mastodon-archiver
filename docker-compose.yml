@@ -1,30 +1,15 @@
-version: '3.8'
-
+---
 services:
   mastodon-archiver:
-    build: .
+    image: mastodon-archiver:latest
     container_name: mastodon-archiver
+    dns:
+      - 8.8.8.8
+    env_file:
+      - .env
     environment:
-      - MASTODON_BASE_URL=${MASTODON_BASE_URL}
-      - MASTODON_ACCESS_TOKEN=${MASTODON_ACCESS_TOKEN}
-      - ARCHIVE_DIR=/archive
+      - USER=sulrich
     volumes:
       - ./archive:/archive
     restart: unless-stopped
-    # uncomment the following lines if you want to run on a schedule instead of once
-    # command: sh -c "while true; do python mastodon-archiver.py; sleep 3600; done"
-
-  # optional: run with cron-like scheduling
-  mastodon-archiver-cron:
-    build: .
-    container_name: mastodon-archiver-cron
-    environment:
-      - MASTODON_BASE_URL=${MASTODON_BASE_URL}
-      - MASTODON_ACCESS_TOKEN=${MASTODON_ACCESS_TOKEN}
-      - ARCHIVE_DIR=/archive
-    volumes:
-      - ./archive:/archive
-    command: sh -c "while true; do python mastodon-archiver.py && sleep 3600; done"
-    restart: unless-stopped
-    profiles:
-      - cron  # only start this when using --profile cron
+    command: sh -c "while true; do uv run mastodon-archiver.py; sleep 300; done"

@@ -5,9 +5,11 @@ build/
 dist/
 wheels/
 *.egg-info
+.python*
 
 # Virtual environments
 .venv
 
-# ignore archive contents
-archive/
+# misc. project specific elements 
+archive
+.env*

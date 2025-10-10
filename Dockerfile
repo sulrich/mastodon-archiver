@@ -1,25 +1,23 @@
-FROM python:3.11-slim
-
+FROM ghcr.io/astral-sh/uv:python3.13-trixie-slim
 # install system dependencies
+
 RUN apt-get update && apt-get install -y \
     sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
+# COPY --from=ghcr.io/astral-sh/uv:0.9.2 /uv /uvx /bin/
+
 # set working directory
 WORKDIR /app
 
-# copy requirements and install python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# copy the archiver script
+# copy project files
 COPY mastodon-archiver.py .
+COPY pyproject.toml .
+COPY uv.lock . 
+
+RUN uv sync --locked
+
 RUN chmod +x mastodon-archiver.py
 
-# create non-root user for security
-RUN groupadd -r archiver && useradd -r -g archiver archiver
-RUN mkdir -p /archive && chown -R archiver:archiver /archive /app
-USER archiver
-
 # run the archiver
-CMD ["python", "mastodon-archiver.py"]
+CMD ["uv", "run", "mastodon-archiver.py"]
