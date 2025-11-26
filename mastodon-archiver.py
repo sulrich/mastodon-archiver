@@ -1,4 +1,10 @@
 #!/usr/bin/env -S uv run
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#   "requests>=2.31.0",
+# ]
+# ///
 """
 mastodon personal archiver - archives favorites and bookmarks locally
 """

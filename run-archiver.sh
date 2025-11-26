@@ -20,11 +20,6 @@ fi
 # shellcheck disable=SC1090
 source "${ENV_FILE}"
 
-# Export required environment variables
-export MASTODON_BASE_URL
-export MASTODON_ACCESS_TOKEN
-export ARCHIVE_DIR
-
 # Change to the script directory to ensure uv uses the correct pyproject.toml
 cd "${SCRIPT_DIR}"
 
