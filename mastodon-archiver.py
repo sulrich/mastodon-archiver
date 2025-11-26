@@ -5,6 +5,7 @@
 #   "requests>=2.31.0",
 # ]
 # ///
+
 """
 mastodon personal archiver - archives favorites and bookmarks locally
 """

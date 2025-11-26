@@ -1,19 +1,19 @@
 #!/bin/bash
 #
-# Wrapper script for mastodon-archiver.py
-# This script sources the .env file and runs the archiver using uv
-# Suitable for cron execution
+# wrapper script for mastodon-archiver.py
+# this script sources the .env file and runs the archiver using uv
+# suitable for cron execution
 #
 
 set -euo pipefail
 
-# Ensure uv is in PATH (typically installed in ~/.local/bin)
+# ensure uv is in path (typically installed in ~/.local/bin)
 export PATH="${HOME}/.local/bin:${PATH}"
 
-# Get the directory where this script resides
+# get the directory where this script resides
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Source the .env file from the script directory
+# source the .env file from the script directory
 ENV_FILE="${SCRIPT_DIR}/.env"
 if [[ ! -f "${ENV_FILE}" ]]; then
     echo "ERROR: .env file not found at ${ENV_FILE}" >&2
@@ -23,8 +23,8 @@ fi
 # shellcheck disable=SC1090
 source "${ENV_FILE}"
 
-# Change to the script directory to ensure uv uses the correct pyproject.toml
+# change to the script directory to ensure uv uses the correct pyproject.toml
 cd "${SCRIPT_DIR}"
 
-# Execute the archiver (uv will be invoked via shebang)
+# execute the archiver (uv will be invoked via shebang)
 exec "${SCRIPT_DIR}/mastodon-archiver.py"
