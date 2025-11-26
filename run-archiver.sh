@@ -7,6 +7,9 @@
 
 set -euo pipefail
 
+# Ensure uv is in PATH (typically installed in ~/.local/bin)
+export PATH="${HOME}/.local/bin:${PATH}"
+
 # Get the directory where this script resides
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -23,5 +26,5 @@ source "${ENV_FILE}"
 # Change to the script directory to ensure uv uses the correct pyproject.toml
 cd "${SCRIPT_DIR}"
 
-# Run the archiver using uv
-exec uv run "${SCRIPT_DIR}/mastodon-archiver.py"
+# Execute the archiver (uv will be invoked via shebang)
+exec "${SCRIPT_DIR}/mastodon-archiver.py"
